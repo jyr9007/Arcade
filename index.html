@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arcade</title>
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arcade</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Welcome to the Arcade</h1>
-    <p id="welcome-message"></p>
-    <button onclick="playGame1()">Play Game 1</button>
-    <button onclick="playGame2()">Play Game 2</button>
-    <button onclick="playGame3()">Play Game 3</button>
-    <div id="farewell"></div>
-    <script src="js/script.js"></script>
+  <h1>Welcome to the Arcade!</h1>
+  <p>Choose a game to play:</p>
+  <button onclick="guessingGame()">Guessing Game</button>
+  <button onclick="consultOracle()">Consult the Oracle</button>
+  <button onclick="bnh()">Bear, Ninja, Hunter</button>
+  <div id="farewell" style="display: none;">
+    <p>Thank you for playing! Have a great day!</p>
+    <button onclick="location.reload()">Play Again</button>
+  </div>
+  <script src="script.js"></script>
 </body>
 </html>
