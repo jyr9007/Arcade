@@ -1,75 +1,87 @@
-// Shared Variables
-let playerName = "";
+// Instantiate variables
+let playerName = '';
+let keepPlaying = true;
 
-// Game 1: Function Declaration
-function playGame1() {
+// Welcome message and ask for player name once
+function startSession() {
+  if (!playerName) {
+    playerName = prompt("Welcome to the Arcade! Please enter your name:");
     if (!playerName) {
-        playerName = prompt("Welcome to the Arcade. What's your name?");
-        alert(`Hello, ${playerName}. Let's start the game.`);
+      alert("Invalid input. Please enter your name.");
+      return startSession();
     }
-    let keepPlaying = true;
-
-    while (keepPlaying) {
-        let result = Math.random() < 0.5 ? "Win" : "Lose";
-        alert(`${playerName}, you ${result} this round.`);
-        
-        let playAgain = prompt(`${playerName}, Would you like to play again? y/n`);
-        keepPlaying = playAgain.toLowerCase() === 'y';
-    }
-
-    checkPlayAnother();
+    alert(`Hello, ${playerName}! Let's start playing!`);
+  }
 }
 
-// Game 2: Function Expression
-const playGame2 = function () {
-    if (!playerName) {
-        playerName = prompt("Welcome to the Arcade. What's your name?");
-        alert(`Hello, ${playerName}. Let's start the game.``);
-    }
-    let keepPlaying = true;
+// Guessing Game (Declaration Function)
+function guessingGame() {
+  startSession();
+  while (keepPlaying) {
+    const numberToGuess = Math.floor(Math.random() * 10) + 1;
+    const guess = prompt(`${playerName}, guess a number between 1 and 10:`);
 
-    while (keepPlaying) {
-        let guess = prompt("Guess a number between 1 and 10:");
-        let answer = Math.floor(Math.random() * 10) + 1;
-        let result = guess == answer ? "Correct" : `Wrong, the number was ${answer}`;
-        alert(`${playerName}, you guessed ${result}.`);
-
-        let playAgain = prompt(`${playerName}, Would you like to keep playing this game? y/n`);
-        keepPlaying = playAgain.toLowerCase() === 'y';
+    if (parseInt(guess) === numberToGuess) {
+      alert("Correct! You guessed the number!");
+    } else {
+      alert(`Wrong! The correct number was ${numberToGuess}.`);
     }
 
-    checkPlayAnother();
+    keepPlaying = confirm(`${playerName}, would you like to keep playing this game?`);
+  }
+  endSession();
+}
+
+// Consult the Oracle (Expression Function)
+const consultOracle = function () {
+  startSession();
+  while (keepPlaying) {
+    const question = prompt(`${playerName}, ask the Oracle your question:`);
+    const responses = ["Yes", "No", "Maybe", "Definitely", "I cannot say."];
+    const answer = responses[Math.floor(Math.random() * responses.length)];
+    alert(`The Oracle says: "${answer}"`);
+
+    keepPlaying = confirm(`${playerName}, would you like to keep playing this game?`);
+  }
+  endSession();
 };
 
-// Game 3: Arrow Function
-const playGame3 = () => {
-    if (!playerName) {
-        playerName = prompt("Welcome to the Arcade. What's your name?");
-        alert(`Hello, ${playerName}. Let's start the game.``);
-    }
-    let keepPlaying = true;
+// Bear, Ninja, Hunter (Arrow Function)
+const bnh = () => {
+  startSession();
+  while (keepPlaying) {
+    const choices = ["Bear", "Ninja", "Hunter"];
+    const playerChoice = prompt(`${playerName}, choose Bear, Ninja, or Hunter:`).toLowerCase();
+    const computerChoice = choices[Math.floor(Math.random() * choices.length)].toLowerCase();
 
-    while (keepPlaying) {
-        let playerMove = prompt("Rock, Paper, or Scissors?");
-        let moves = ["Rock", "Paper", "Scissors"];
-        let computerMove = moves[Math.floor(Math.random() * moves.length)];
-        let result = playerMove === computerMove ? "Tie" : 
-                     (playerMove === "Rock" && computerMove === "Scissors") || 
-                     (playerMove === "Paper" && computerMove === "Rock") || 
-                     (playerMove === "Scissors" && computerMove === "Paper") ? "Win" : "Lose";
-        alert(`${playerName}, Computer chose ${computerMove}. You ${result}.`);
-
-        let playAgain = prompt(`${playerName}, Would you like to keep playing this game? y/n`);
-        keepPlaying = playAgain.toLowerCase() === 'y';
+    if (!choices.map(c => c.toLowerCase()).includes(playerChoice)) {
+      alert("Invalid input. Please choose Bear, Ninja, or Hunter.");
+      continue;
     }
 
-    checkPlayAnother();
+    if (playerChoice === computerChoice) {
+      alert(`It's a tie! You both chose ${computerChoice}.`);
+    } else if (
+      (playerChoice === "bear" && computerChoice === "hunter") ||
+      (playerChoice === "ninja" && computerChoice === "bear") ||
+      (playerChoice === "hunter" && computerChoice === "ninja")
+    ) {
+      alert(`You lose! ${computerChoice} beats ${playerChoice}.`);
+    } else {
+      alert(`You win! ${playerChoice} beats ${computerChoice}.`);
+    }
+
+    keepPlaying = confirm(`${playerName}, would you like to keep playing this game?`);
+  }
+  endSession();
 };
 
-// Helper Function to Check If the Player Wants to Play Another Game
-function checkPlayAnother() {
-    let pickAnother = prompt(`${playerName}, Would you like to play another game to play? y/n`);
-    if (pickAnother.toLowerCase() !== 'y') {
-        document.getElementById("farewell").innerHTML = `Goodbye, ${playerName}! Thanks for playing.`;
-    }
+// End session
+function endSession() {
+  const playAnother = confirm(`${playerName}, would you like to pick another game to play?`);
+  if (!playAnother) {
+    document.getElementById("farewell").style.display = "block";
+  } else {
+    keepPlaying = true;
+  }
 }
